@@ -1,5 +1,5 @@
 fn get_values(input: &str, delimiter: char) -> (i32, i32) {
-    let split = input.split(|c| c == delimiter || c == '\n');
+    let split = input.split(delimiter);
     let vec: Vec<&str> = split.collect();
     let first = vec[0].parse::<i32>().unwrap();
     let second = vec[1].parse::<i32>().unwrap();

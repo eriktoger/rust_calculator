@@ -5,6 +5,7 @@ use std::io;
 fn get_user_input() -> String {
     let mut input = String::new();
     io::stdin().read_line(&mut input).unwrap();
+    input.pop(); // remove newline
     return input;
 }
 
