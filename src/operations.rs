@@ -1,36 +1,59 @@
-fn get_values(input: &str, delimiter: char) -> (i32, i32) {
-    let split = input.split(delimiter);
-    let vec: Vec<&str> = split.collect();
-    let first = vec[0].parse::<i32>().unwrap();
-    let second = vec[1].parse::<i32>().unwrap();
-    (first, second)
+pub fn calculate(input: String) -> i32 {
+    parse(input).parse::<i32>().unwrap()
 }
 
-pub fn addition(input: String) -> i32 {
-    let (first, second) = get_values(&input, '+');
-    return first + second;
+fn parse(input: String) -> String {
+    let addition_handled = handle_operation(input, '+');
+    let subtraction_handled = handle_operation(addition_handled, '-');
+    let multiplication_handled = handle_operation(subtraction_handled, '*');
+    let division_handled = handle_operation(multiplication_handled, '/');
+    let parenthesis_handled = handle_parenthesis(division_handled);
+
+    return parenthesis_handled;
 }
 
-pub fn subtraction(input: String) -> i32 {
-    let (first, second) = get_values(&input, '-');
-    return first - second;
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn simple_add() {
-        let question = String::from("1+3");
-        let calculated_answer = addition(question);
-        let correct_answer = 4;
-        assert_eq!(calculated_answer, correct_answer);
+fn handle_parenthesis(input: String) -> String {
+    let first = input.chars().next().unwrap();
+    let last = input.chars().last().unwrap();
+    if first == '(' && last == ')' {
+        let trimmed_input = input[1..input.len() - 1].to_string();
+        return parse(trimmed_input);
     }
-    #[test]
-    fn simple_subtract() {
-        let question = String::from("3-1");
-        let calculated_answer = subtraction(question);
-        let correct_answer = 2;
-        assert_eq!(calculated_answer, correct_answer);
+    return input;
+}
+
+fn get_values(input: String, index: usize) -> (i32, i32) {
+    let before = input[..index].to_string();
+    let after = input[index + 1..].to_string();
+    let first = parse(before).parse::<i32>();
+    let second = parse(after).parse::<i32>();
+    let first_int = first.unwrap();
+    let second_int = second.unwrap();
+    return (first_int, second_int);
+}
+
+fn handle_operation(input: String, operator: char) -> String {
+    let mut left_paranthesis = 0;
+    let mut right_paranthesis = 0;
+    let mut index_counter = input.len();
+    for c in input.chars().rev() {
+        index_counter -= 1;
+        if c == '(' {
+            left_paranthesis += 1;
+        } else if c == ')' {
+            right_paranthesis += 1;
+        }
+
+        if left_paranthesis == right_paranthesis && c == operator {
+            let (first_int, second_int) = get_values(input, index_counter);
+            match operator {
+                '+' => return (first_int + second_int).to_string(),
+                '-' => return (first_int - second_int).to_string(),
+                '/' => return (first_int / second_int).to_string(),
+                '*' => return (first_int * second_int).to_string(),
+                _ => panic!("Operator not implemented"),
+            }
+        }
     }
+    return input;
 }

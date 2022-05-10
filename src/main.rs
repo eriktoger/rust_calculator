@@ -1,5 +1,5 @@
 mod operations;
-use operations::{addition, subtraction};
+use operations::calculate;
 use std::io;
 
 fn get_user_input() -> String {
@@ -11,9 +11,5 @@ fn get_user_input() -> String {
 
 fn main() {
     let input = get_user_input();
-    if input.contains("+") {
-        println!("{}", addition(input));
-    } else if input.contains("-") {
-        println!("{}", subtraction(input));
-    }
+    println!("{}", calculate(input));
 }
