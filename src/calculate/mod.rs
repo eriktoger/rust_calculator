@@ -1,5 +1,11 @@
+mod helpers;
+use helpers::parse;
+pub fn calculate(input: String) -> i32 {
+    parse(input).parse::<i32>().unwrap()
+}
+
 #[cfg(test)]
-mod tests {
+pub mod tests {
     use super::*;
     #[test]
     fn simple_add() {

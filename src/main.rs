@@ -1,5 +1,5 @@
-mod operations;
-use operations::calculate;
+mod calculate;
+use calculate::calculate;
 use std::io;
 
 fn get_user_input() -> String {

@@ -1,8 +1,4 @@
-pub fn calculate(input: String) -> i32 {
-    parse(input).parse::<i32>().unwrap()
-}
-
-fn parse(input: String) -> String {
+pub fn parse(input: String) -> String {
     let addition_handled = handle_operation(input, '+');
     let subtraction_handled = handle_operation(addition_handled, '-');
     let multiplication_handled = handle_operation(subtraction_handled, '*');
