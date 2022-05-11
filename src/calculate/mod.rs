@@ -50,6 +50,20 @@ pub mod tests {
         assert_eq!(calculated_answer, correct_answer);
     }
     #[test]
+    fn simple_paranthesis() {
+        let question = String::from("(2-2)");
+        let calculated_answer = calculate(question);
+        let correct_answer = 0;
+        assert_eq!(calculated_answer, correct_answer);
+    }
+    #[test]
+    fn double_paranthesis() {
+        let question = String::from("(2-2)-(2+2)");
+        let calculated_answer = calculate(question);
+        let correct_answer = -4;
+        assert_eq!(calculated_answer, correct_answer);
+    }
+    #[test]
     fn combine_operations() {
         let question = String::from("3*(10+2)");
         let calculated_answer = calculate(question);
@@ -89,6 +103,14 @@ pub mod tests {
         let question = String::from("5--3+-12/(-3*2)");
         let calculated_answer = calculate(question);
         let correct_answer = 10;
+        assert_eq!(calculated_answer, correct_answer);
+    }
+
+    #[test]
+    fn mixed_3() {
+        let question = String::from("10-(20*2)/4+20");
+        let calculated_answer = calculate(question);
+        let correct_answer = 20;
         assert_eq!(calculated_answer, correct_answer);
     }
 }

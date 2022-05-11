@@ -41,7 +41,7 @@ fn handle_parenthesis(input: String) -> String {
 }
 
 fn replace_negative(input: String) -> String {
-    let regex_string = format!(r"(.*\d)({})(\d.*)$", MathSymbols::NEGATIVE);
+    let regex_string = format!(r"(.*[\d|\)])({})([\d|\(].*)$", MathSymbols::NEGATIVE);
     let find_negative = Regex::new(&regex_string).unwrap();
     let with_subtraction = format!("${{1}}{}${{3}}", MathSymbols::SUBTRACTION);
     return find_negative
