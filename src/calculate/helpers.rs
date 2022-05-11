@@ -1,16 +1,5 @@
+use super::structs::MathSymbols;
 use regex::Regex;
-
-struct MathSymbols;
-
-impl MathSymbols {
-    const LEFT_PARANTHESIS: char = '(';
-    const RIGHT_PARANTHESIS: char = ')';
-    const ADDITION: char = '+';
-    const NEGATIVE: char = '-';
-    const SUBTRACTION: char = '_';
-    const MULTIPLICATION: char = '*';
-    const DIVISION: char = '/';
-}
 
 fn handle_addition(input: String) -> String {
     let new_input = replace_double_negative(input);

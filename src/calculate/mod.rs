@@ -1,5 +1,7 @@
 mod helpers;
+mod structs;
 use helpers::parse_input;
+
 pub fn calculate(input: String) -> i32 {
     parse_input(input).parse::<i32>().unwrap()
 }
