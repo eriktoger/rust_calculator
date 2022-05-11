@@ -1,7 +1,7 @@
 mod helpers;
-use helpers::parse;
+use helpers::parse_input;
 pub fn calculate(input: String) -> i32 {
-    parse(input).parse::<i32>().unwrap()
+    parse_input(input).parse::<i32>().unwrap()
 }
 
 #[cfg(test)]
@@ -61,6 +61,34 @@ pub mod tests {
         let question = String::from("3*(10+2)/4");
         let calculated_answer = calculate(question);
         let correct_answer = 9;
+        assert_eq!(calculated_answer, correct_answer);
+    }
+    #[test]
+    fn negative_numbers() {
+        let question = String::from("-3");
+        let calculated_answer = calculate(question);
+        let correct_answer = -3;
+        assert_eq!(calculated_answer, correct_answer);
+    }
+    #[test]
+    fn negative_numbers_2() {
+        let question = String::from("1--3");
+        let calculated_answer = calculate(question);
+        let correct_answer = 4;
+        assert_eq!(calculated_answer, correct_answer);
+    }
+    #[test]
+    fn mixed() {
+        let question = String::from("5*-3+-3/-3");
+        let calculated_answer = calculate(question);
+        let correct_answer = -14;
+        assert_eq!(calculated_answer, correct_answer);
+    }
+    #[test]
+    fn mixed_2() {
+        let question = String::from("5--3+-12/(-3*2)");
+        let calculated_answer = calculate(question);
+        let correct_answer = 10;
         assert_eq!(calculated_answer, correct_answer);
     }
 }
