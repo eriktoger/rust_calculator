@@ -1,15 +1,38 @@
 mod calculate;
 use calculate::calculate;
-use std::io;
+#[macro_use]
+extern crate rocket;
 
-fn get_user_input() -> String {
-    let mut input = String::new();
-    io::stdin().read_line(&mut input).unwrap();
-    input.pop(); // remove newline
-    return input;
+use rocket::fairing::{Fairing, Info, Kind};
+use rocket::http::Header;
+use rocket::{Request, Response};
+
+pub struct CORS;
+
+#[rocket::async_trait]
+impl Fairing for CORS {
+    fn info(&self) -> Info {
+        Info {
+            name: "Attaching CORS headers to responses",
+            kind: Kind::Response,
+        }
+    }
+
+    async fn on_response<'r>(&self, _request: &'r Request<'_>, response: &mut Response<'r>) {
+        response.set_header(Header::new(
+            "Access-Control-Allow-Origin",
+            "http://localhost:4001",
+        ));
+    }
 }
 
-fn main() {
-    let input = get_user_input();
-    println!("{}", calculate(input));
+#[post("/", data = "<input>")]
+fn get_answer(input: String) -> String {
+    let trimmed_input = input.replace("\"", "");
+    calculate(trimmed_input).to_string()
+}
+
+#[launch]
+fn rocket() -> _ {
+    rocket::build().attach(CORS).mount("/", routes![get_answer])
 }

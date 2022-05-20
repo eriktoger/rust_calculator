@@ -1,7 +1,14 @@
 # Rust based Calculator
 
-It will start as an simple CLI calculator.
+Start the rust web server on port 8000:
 
-But if I have time it will grow to an online calculator.
+- cd src
+- cargo run
 
-With Rust as both web server and parser.
+Start the web UI on port 4001:
+
+- cd webUI/src
+- npm install #(only the first time)
+- npm start
+
+Go to http://localhost:4001/ and start using the app!
