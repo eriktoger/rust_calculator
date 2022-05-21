@@ -1,17 +1,29 @@
 import { FormEvent, StrictMode, useState } from "react";
 
+const getAnswer = async (question: string) => {
+  try {
+    const response = await fetch("http://localhost:8000", {
+      method: "POST",
+      body: question,
+    });
+    if (response.ok) {
+      return response.text();
+    }
+    return "Unknown Error";
+  } catch (error) {
+    console.log("error", error);
+    return "Unknown Error";
+  }
+};
+
 function App() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    fetch("http://localhost:8000", {
-      method: "POST",
-      body: question,
-    }).then((res) => res.json().then((data) => setAnswer(data)));
+    getAnswer(question).then((data) => setAnswer(data));
   };
-
+  const message = answer.includes("Error") ? answer : `Answer: ${answer}`;
   return (
     <StrictMode>
       <div> Enter math questions:</div>
@@ -22,7 +34,7 @@ function App() {
         />
         <input type="submit" value="Submit" />
       </form>
-      <div>Answer: {answer} </div>
+      <div>{message} </div>
     </StrictMode>
   );
 }

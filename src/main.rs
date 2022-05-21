@@ -28,8 +28,7 @@ impl Fairing for CORS {
 
 #[post("/", data = "<input>")]
 fn get_answer(input: String) -> String {
-    let trimmed_input = input.replace("\"", "");
-    calculate(trimmed_input).to_string()
+    calculate(input)
 }
 
 #[launch]
